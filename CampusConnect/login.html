@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CampusConnect</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-page">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <h2>CampusConnect</h2>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <a href="index.html#events" class="nav-link">Events</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <section class="login-section">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>Welcome Back</h1>
+                    <p>Login to access your CampusConnect dashboard</p>
+                </div>
+                
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="role">Select Your Role</label>
+                        <select id="role" name="role" required>
+                            <option value="">Choose your role</option>
+                            <option value="student">Student</option>
+                            <option value="student-coordinator">Student Coordinator</option>
+                            <option value="faculty-coordinator">Faculty Coordinator</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">College Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your college email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <small class="password-hint">Demo password: Campus123</small>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">
+                        <span class="btn-text">Login</span>
+                        <span class="btn-loader" style="display: none;">Logging in...</span>
+                    </button>
+                </form>
+                
+                <div id="loginMessage" class="login-message"></div>
+                
+                <div class="login-footer">
+                    <p>Don't have an account? <a href="#" onclick="showDemoInfo()">View Demo Info</a></p>
+                </div>
+            </div>
+            
+            <!-- Demo Information Modal -->
+            <div id="demoModal" class="demo-modal">
+                <div class="demo-content">
+                    <span class="demo-close" onclick="closeDemoInfo()">&times;</span>
+                    <h3>Demo Login Information</h3>
+                    <div class="demo-accounts">
+                        <div class="demo-account">
+                            <h4>👨‍🎓 Student</h4>
+                            <p><strong>Email:</strong> student@college.edu</p>
+                            <p><strong>Password:</strong> Campus123</p>
+                            <p><strong>Access:</strong> View and register for approved events</p>
+                        </div>
+                        <div class="demo-account">
+                            <h4>👨‍💼 Student Coordinator</h4>
+                            <p><strong>Email:</strong> coordinator@college.edu</p>
+                            <p><strong>Password:</strong> Campus123</p>
+                            <p><strong>Access:</strong> Create, edit, and submit events for approval</p>
+                        </div>
+                        <div class="demo-account">
+                            <h4>👨‍🏫 Faculty Coordinator</h4>
+                            <p><strong>Email:</strong> faculty@college.edu</p>
+                            <p><strong>Password:</strong> Campus123</p>
+                            <p><strong>Access:</strong> Approve or deny event requests</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html> 

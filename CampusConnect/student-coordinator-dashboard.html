@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Coordinator Dashboard - CampusConnect</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <h2>CampusConnect</h2>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link" id="navHome">Home</a>
+                <a href="#my-events" class="nav-link" id="navMyEvents">My Events</a>
+                <a href="#create" class="nav-link" id="navCreate">Create Events</a>
+                <a href="#wishlist" class="nav-link" id="navWishlist">Wishlist</a>
+                <a href="#history" class="nav-link" id="navHistory">History</a>
+            </div>
+            <div class="user-menu">
+                <span id="userName">Student Coordinator</span>
+                <button onclick="logout()" class="logout-btn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="dashboard-info">
+                <h1>Student Coordinator Dashboard</h1>
+                <p>Manage your events and track their approval status.</p>
+            </div>
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <h3 id="totalMyEvents">0</h3>
+                    <p>Total Events</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="pendingEvents">0</h3>
+                    <p>Pending Approval</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="approvedEvents">0</h3>
+                    <p>Approved Events</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="deniedEvents">0</h3>
+                    <p>Denied Events</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Coordinator Home Section -->
+            <section id="home" class="events-section">
+                <div class="section-header">
+                    <h2>Explore Events</h2>
+                </div>
+                <div class="action-section">
+                    <div class="filter-tabs" id="statusTabs">
+                        <button class="filter-tab active" onclick="setCoordinatorHomeStatus('active')">Upcoming + Ongoing</button>
+                        <button class="filter-tab" onclick="setCoordinatorHomeStatus('upcoming')">Upcoming</button>
+                        <button class="filter-tab" onclick="setCoordinatorHomeStatus('ongoing')">Ongoing</button>
+                        <button class="filter-tab" onclick="setCoordinatorHomeStatus('completed')">Completed</button>
+                    </div>
+                    <div class="filter-tabs" id="categoryTabs">
+                        <button class="filter-tab active" onclick="setCoordinatorHomeCategory('')">All</button>
+                        <button class="filter-tab" onclick="setCoordinatorHomeCategory('cultural')">Cultural</button>
+                        <button class="filter-tab" onclick="setCoordinatorHomeCategory('tech')">Tech</button>
+                        <button class="filter-tab" onclick="setCoordinatorHomeCategory('sports')">Sports</button>
+                        <button class="filter-tab" onclick="setCoordinatorHomeCategory('crafts')">Crafts</button>
+                    </div>
+                </div>
+                <div id="coordinatorHomeContainer" class="events-grid"></div>
+                <div id="noHomeEvents" class="no-events" style="display: none;">
+                    <div class="no-events-content">
+                        <h3>No events to show</h3>
+                        <p>Try changing filters or check back later.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- My Events Section -->
+            <section id="my-events" class="events-section" style="display: none;">
+                <div class="section-header">
+                    <h2>My Events</h2>
+                    <button onclick="openCreateEventModal()" class="btn-primary">
+                        <span>+</span> Create New Event
+                    </button>
+                </div>
+                <div class="action-section">
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" onclick="filterMyEvents('all')">All</button>
+                        <button class="filter-tab" onclick="filterMyEvents('approved')">Approved</button>
+                        <button class="filter-tab" onclick="filterMyEvents('pending')">Pending</button>
+                        <button class="filter-tab" onclick="filterMyEvents('denied')">Denied</button>
+                        <button class="filter-tab" onclick="filterMyEvents('draft')">Drafts</button>
+                    </div>
+                </div>
+                <div id="myEventsContainer" class="events-grid"></div>
+                <div id="noMyEvents" class="no-events" style="display: none;">
+                    <div class="no-events-content">
+                        <h3>No events found</h3>
+                        <p>You haven't created any events yet. Start by creating your first event!</p>
+                        <button onclick="openCreateEventModal()" class="btn-primary">Create Event</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Create Events Section -->
+            <section id="create" class="events-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Create Events</h2>
+                </div>
+                <div class="action-section" style="justify-content: center;">
+                    <button onclick="openCreateEventModal()" class="btn-primary">
+                        <span>+</span> Create New Event
+                    </button>
+                </div>
+            </section>
+
+            <!-- Wishlist Section -->
+            <section id="wishlist" class="events-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Wishlist</h2>
+                </div>
+                <div id="wishlistContainer" class="events-grid"></div>
+                <div id="noWishlist" class="no-events" style="display: none;">
+                    <div class="no-events-content">
+                        <h3>No wishlisted events</h3>
+                        <p>Click the heart on any event to add it to your wishlist.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section id="history" class="events-section" style="display: none;">
+                <div class="section-header">
+                    <h2>History</h2>
+                </div>
+                <div id="historyContainer" class="events-grid"></div>
+                <div id="noHistory" class="no-events" style="display: none;">
+                    <div class="no-events-content">
+                        <h3>No participation history</h3>
+                        <p>Events you register for will appear here with dates.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Create/Edit Event Modal -->
+    <div id="eventFormModal" class="event-form-modal">
+        <div class="event-form-content">
+            <div class="event-form-header">
+                <h3 id="eventFormTitle">Create New Event</h3>
+                <span class="event-form-close" onclick="closeEventFormModal()">&times;</span>
+            </div>
+            
+            <form id="eventForm" class="event-form">
+                <div class="form-row">
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 1 1 48%; min-width: 200px;">
+                            <label for="eventTitle">Event Title *</label>
+                            <input type="text" id="eventTitle" name="title" required>
+                        </div>
+                        <div class="form-group" style="flex: 1 1 48%; min-width: 200px;">
+                            <label for="eventClubName">Club Name *</label>
+                            <input type="text" id="eventClubName" name="clubName" placeholder="e.g., Tech Club" required>
+                        </div>
+                    </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventCategory">Category *</label>
+                        <select id="eventCategory" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="cultural">Cultural</option>
+                            <option value="tech">Tech</option>
+                            <option value="sports">Sports</option>
+                            <option value="crafts">Crafts</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventDate">Event Date *</label>
+                        <input type="date" id="eventDate" name="date" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventTime">Event Time *</label>
+                        <input type="time" id="eventTime" name="time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventLocation">Location *</label>
+                        <input type="text" id="eventLocation" name="location" placeholder="e.g., Main Auditorium" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDescription">Description *</label>
+                    <textarea id="eventDescription" name="description" rows="4" placeholder="Describe your event..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventBanner">Google Drive Image Link</label>
+                    <input type="url" id="eventBanner" name="bannerUrl" placeholder="https://drive.google.com/...">
+                    <small>Leave empty to use default image</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventFormLink">Google Form Link *</label>
+                    <input type="url" id="eventFormLink" name="formLink" placeholder="https://forms.google.com/..." required>
+                    <small>This link will be used for student registrations</small>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="closeEventFormModal()" class="btn-secondary">Cancel</button>
+                    <button type="button" id="saveDraftBtn" class="btn-secondary">Save as Draft</button>
+                    <button type="submit" class="btn-primary">
+                        <span id="submitBtnText">Submit for Approval</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Event Details Modal -->
+    <div id="eventDetailsModal" class="event-details-modal">
+        <div class="event-details-content">
+            <span class="event-details-close" onclick="closeEventDetailsModal()">&times;</span>
+            <div id="eventDetailsContent">
+                <!-- Event details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Modal (for viewing event cards) -->
+    <div id="eventModal" class="event-modal">
+        <div class="event-modal-content">
+            <span class="event-modal-close" onclick="closeEventModal()">&times;</span>
+            <div id="eventModalContent"></div>
+        </div>
+    </div>
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="delete-modal">
+        <div class="delete-content">
+            <h3>Delete Event</h3>
+            <p>Are you sure you want to delete this event? This action cannot be undone.</p>
+            <div class="delete-actions">
+                <button onclick="closeDeleteModal()" class="btn-secondary">Cancel</button>
+                <button onclick="confirmDeleteEvent()" class="btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - CampusConnect</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <h2>CampusConnect</h2>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="student-dashboard.html" class="nav-link">Home</a>
+                <a href="javascript:void(0)" class="nav-link" onclick="showStudentSection('events'); return false;">Events</a>
+                <a href="javascript:void(0)" class="nav-link" id="navWishlist" onclick="showStudentSection('wishlist'); return false;">Wishlist</a>
+                <a href="javascript:void(0)" class="nav-link" id="navHistory" onclick="showStudentSection('history'); return false;">History</a>
+            </div>
+            <div class="user-menu">
+                <span id="userName">Student</span>
+                <button onclick="logout()" class="logout-btn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="dashboard-info">
+                <h1>Student Dashboard</h1>
+                <p>Welcome back! Discover and register for exciting campus events.</p>
+            </div>
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <h3 id="totalEvents">0</h3>
+                    <p>Available Events</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="registeredEvents">0</h3>
+                    <p>Registered Events</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="wishlistEvents">0</h3>
+                    <p>Wishlisted Events</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="container">
+
+            <!-- Events Section -->
+            <section id="events" class="events-section">
+                <!-- Filter Tabs and Search/Filter only for main events -->
+                <div id="eventsHeaderBlock">
+                    <div class="section-header">
+                        <h2 id="sectionTitle">Upcoming Events</h2>
+                        <!-- View toggle (grid/list) removed per request -->
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" onclick="filterEventsByStatus('upcoming')">Upcoming</button>
+                            <button class="filter-tab" onclick="filterEventsByStatus('ongoing')">Ongoing</button>
+                            <button class="filter-tab" onclick="filterEventsByStatus('completed')">Completed</button>
+                        </div>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-box">
+                            <input type="text" id="searchEvents" placeholder="Search events...">
+                            <button onclick="searchEvents()" class="search-btn">Search</button>
+                        </div>
+                        <div class="filter-options">
+                            <select id="categoryFilter" onchange="filterEvents()">
+                                <option value="">All Categories</option>
+                                <option value="workshop">Workshop</option>
+                                <option value="cultural">Cultural</option>
+                                <option value="sports">Sports</option>
+                                <option value="academic">Academic</option>
+                                <option value="social">Social</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div id="eventsContainer" class="events-grid">
+                    <!-- Events will be loaded dynamically -->
+                </div>
+
+
+                <!-- Wishlist Section for Students -->
+                <section id="wishlist" class="events-section" style="display: none;">
+                    <div class="section-header">
+                        <h2 id="wishlistTitle">Wishlist</h2>
+                    </div>
+                    <div id="wishlistContainer" class="events-grid"></div>
+                    <div id="noWishlist" class="no-events" style="display: none;">
+                        <div class="no-events-content">
+                            <h3>No wishlisted events</h3>
+                            <p>Click the heart on any event to add it to your wishlist.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- History Section for Students -->
+                <section id="history" class="events-section" style="display: none;">
+                    <div class="section-header">
+                        <h2 id="historyTitle">History</h2>
+                    </div>
+                    <div id="historyContainer" class="events-grid"></div>
+                    <div id="noHistory" class="no-events" style="display: none;">
+                        <div class="no-events-content">
+                            <h3>No participation history</h3>
+                            <p>Events you register for will appear here with dates.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <div id="noEvents" class="no-events" style="display: none;">
+                    <div class="no-events-content">
+                        <h3>No events found</h3>
+                        <p id="noEventsMessage">There are currently no events available matching your criteria.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Event Details Modal -->
+    <div id="eventModal" class="event-modal">
+        <div class="event-modal-content">
+            <span class="event-modal-close" onclick="closeEventModal()">&times;</span>
+            <div id="eventModalContent">
+                <!-- Event details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Success Modal -->
+    <div id="registrationModal" class="registration-modal">
+        <div class="registration-content">
+            <div class="registration-header">
+                <h3>Registration Successful!</h3>
+                <span class="registration-close" onclick="closeRegistrationModal()">&times;</span>
+            </div>
+            <div class="registration-body">
+                <p>You have successfully registered for the event. Check your email for confirmation details.</p>
+                <div class="registration-actions">
+                    <button onclick="closeRegistrationModal()" class="btn-primary">Continue Browsing</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
